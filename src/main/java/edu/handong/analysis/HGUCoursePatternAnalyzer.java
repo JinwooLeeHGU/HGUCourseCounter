@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -24,17 +24,17 @@ public class HGUCoursePatternAnalyzer {
 		try {
 			// when there are not enough arguments from CLI, it throws the NotEnoughArgmentException which must be defined by you.
 			if(args.length<2)
-				throw new NotEnoughArgumentException();
+				throw new NotEnoughArgumentException("Exception: Insert two arguments!");
 		} catch (NotEnoughArgumentException e) {
 			System.out.println(e.getMessage());
 			System.exit(0);
-		}
+		}	
 		
 		String dataPath = args[0]; // csv file to be analyzed
 		String resultPath = args[1]; // the file path where the results are saved.
-		ArrayList<String> lines = Utils.getLines(dataPath, true);
+		ArrayList<String> lines = Utils.getLines(dataPath, true);  // reads from file
 		
-		students = loadStudentCourseRecords(lines);
+		students = loadStudentCourseRecords(lines);	// 
 		
 		// To sort HashMap entries by key values so that we can save the results by student ids in ascending order.
 		Map<String, Student> sortedStudents = new TreeMap<String,Student>(students); 
@@ -55,8 +55,21 @@ public class HGUCoursePatternAnalyzer {
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
 		// TODO: Implement this method
+		// ArrayList<Map<String, Student>> list; 
 		
-		return null; // do not forget to return a proper variable.
+		// System.out.println(lines.get(1));
+		
+		HashMap<String, Student> mArrayList = new HashMap<String, Student>();
+		String[] studentNumber;
+		
+		for(int i=0;i<lines.size();i++) {
+			studentNumber = lines.get(i).trim().split(",");
+			mArrayList.put(studentNumber[i], new Student(studentNumber[i]));
+			Course newRecord = new Course(lines.get(i));
+			
+			mArrayList.get(studentNumber[i]).addCourse(newRecord);
+		}
+		return mArrayList; // do not forget to return a proper variable.
 	}
 
 	/**
