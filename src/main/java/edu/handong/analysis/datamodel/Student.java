@@ -10,27 +10,27 @@ public class Student {
 	                                                         // key: Yearprivate Semester
 	                                                         // e.g., 2003private 1, 
 	public Student(String studentId) {
-		this.studentId = studentId; // constructor
+		this.studentId = studentId; 	// constructor
 		// coursesTaken = new ArrayList<Course>();
 		// semestersByYearAndSemester = new HashMap<String, Integer>();
 	}
-	/*public String getStudentId(){
-		return this.studentId;
-	}*/
-	
+	public String getStudentId(){
+		return studentId;
+	}
 	public void addCourse(Course newRecord) {
-		coursesTaken = new ArrayList<Course>(); // initialization!! 
+		coursesTaken = new ArrayList<Course>(); // instantiation!! 
 		coursesTaken.add(newRecord);
 	}
 	public HashMap<String,Integer> getSemestersByYearAndSemester() {
+		semestersByYearAndSemester = new HashMap<String, Integer>(); // instantiation!! 
 		int semester = 1;
 		for(Course course : coursesTaken) {
-			String temp1 = Integer.toString(course.getYearTaken());
-			String temp2 = Integer.toString(course.getSemesterCourseTaken());
-			String temp3 = temp1 + "-" + temp2;
+			int yearTaken = course.getYearTaken();
+			int semesterTaken = course.getSemesterCourseTaken();
+			String key = yearTaken + "-" + semesterTaken;
 			
-			if(!semestersByYearAndSemester.containsKey(temp3)) {
-				semestersByYearAndSemester.put(temp3, semester);
+			if(!semestersByYearAndSemester.containsKey(key)) {
+				semestersByYearAndSemester.put(key, semester);
 				semester++;
 			}
 		}
@@ -39,11 +39,11 @@ public class Student {
 	public int getNumCourseInNthSemester(int semester) {
 		int count = 0;
 		for(Course course : coursesTaken) {
-			String temp1 = Integer.toString(course.getYearTaken());
-			String temp2 = Integer.toString(course.getSemesterCourseTaken());
-			String temp3 = temp1 + "-" + temp2;
+			int yearTaken = course.getYearTaken();
+			int semesterTaken = course.getSemesterCourseTaken();
+			String key = yearTaken + "-" + semesterTaken;
 			
-			if(semester == semestersByYearAndSemester.get(temp3)) {
+			if(semester == semestersByYearAndSemester.get(key)) {
 				count++;
 			}	
 		}	
