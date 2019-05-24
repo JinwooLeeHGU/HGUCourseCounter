@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Student {
 	private String studentId;
-	private ArrayList<Course> coursesTaken; // 학생이 들은 수업 목록
-	private HashMap<String,Integer> semestersByYearAndSemester; 
+	private ArrayList<Course> coursesTaken =  new ArrayList<Course>(); // instantiation!!; // 학생이 들은 수업 목록
+	private HashMap<String,Integer> semestersByYearAndSemester = new HashMap<String, Integer>();
 	                                                         // key: Yearprivate Semester
 	                                                         // e.g., 2003private 1, 
 	public Student(String studentId) {
@@ -18,11 +18,11 @@ public class Student {
 		return studentId;
 	}
 	public void addCourse(Course newRecord) {
-		coursesTaken = new ArrayList<Course>(); // instantiation!! 
+		 
 		coursesTaken.add(newRecord);
 	}
-	public HashMap<String,Integer> getSemestersByYearAndSemester() {
-		semestersByYearAndSemester = new HashMap<String, Integer>(); // instantiation!! 
+	public HashMap<String,Integer> getSemestersByYearAndSemester() {   // 총학기 개수 
+		//semestersByYearAndSemester = new HashMap<String, Integer>(); // instantiation!! 
 		int semester = 1;
 		for(Course course : coursesTaken) {
 			int yearTaken = course.getYearTaken();
@@ -36,7 +36,7 @@ public class Student {
 		}
 		return semestersByYearAndSemester;
 	}
-	public int getNumCourseInNthSemester(int semester) {
+	public int getNumCourseInNthSemester(int semester) {   //한 학기당 수업 몇개를 들었는지 
 		int count = 0;
 		for(Course course : coursesTaken) {
 			int yearTaken = course.getYearTaken();

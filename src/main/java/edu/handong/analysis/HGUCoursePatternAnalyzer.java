@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.lang.String;
+import java.util.Set;
+//import java.util.Iterator;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
@@ -35,8 +37,12 @@ public class HGUCoursePatternAnalyzer {
 		String resultPath = args[1]; // the file path where the results are saved.
 		ArrayList<String> lines = Utils.getLines(dataPath, true);
 		
+		//for(String line: lines) {
+			//System.out.println(line);
+		//}
 		students = loadStudentCourseRecords(lines);
 		
+			
 		// To sort HashMap entries by key values so that we can save the results by student ids in ascending order.
 		Map<String, Student> sortedStudents = new TreeMap<String,Student>(students); 
 		
@@ -44,8 +50,8 @@ public class HGUCoursePatternAnalyzer {
 		ArrayList<String> linesToBeSaved = countNumberOfCoursesTakenInEachSemester(sortedStudents);
 		
 		// Write a file (named like the value of resultPath) with linesTobeSaved.
-		Utils.writeAFile(linesToBeSaved, resultPath);
-	}
+			Utils.writeAFile(linesToBeSaved, resultPath);
+		}
 	
 	/**
 	 * This method create HashMap<String,Student> from the data csv file. Key is a student id and the corresponding object is an instance of Student.
@@ -63,9 +69,11 @@ public class HGUCoursePatternAnalyzer {
 		//HashMap<String, Student> myStudents = new HashMap<String, Student>();
 		
 		students = new HashMap<String, Student>(); // HashMap for students is declared above. 
-		
-		String[] studentNumber = new String[(lines.size())];
+		Student studentInstance= null; 
+				
+		// String[] studentNumber = new String[(lines.size())];
 		String studentNo; 
+		
 		// for(int i=0;i<lines.size();i++) { 				// USE ENHANCED FOR LOOP TO CONVERT ARRAYLIST TO STRING!!!! 안그려면 너무 복잡해
 		for(String line: lines) {
 			// studentNo = line.get(i).trim().split(",")[0];
@@ -74,17 +82,23 @@ public class HGUCoursePatternAnalyzer {
 			studentNo = line.trim().split(",")[0];
 			//studentNumber[i] = lines.trim().split(",")[0];
 			
-			if(students.containsKey(studentNo)) {
+			if(!students.containsKey(studentNo)) {
+				studentInstance= new Student(studentNo);
 				Course course = new Course(line);   // ArrayList를 String으로 Convert하지 말고 처음부터 enhanced for에서 String으로 변환!
-				students.put(studentNo, course);
+				studentInstance.addCourse(course);
 				
+				students.put(studentNo, studentInstance);				
 			}
-			mArrayList.put(studentNumber[i], new Student(studentNumber[i]));     // student Id as key; student instance as value
-			Course newRecord = new Course(lines.get(i));
-			
-			mArrayList.get(studentNumber[i]).addCourse(newRecord);
+			else {
+				Course course = new Course(line);   // ArrayList를 String으로 Convert하지 말고 처음부터 enhanced for에서 String으로 변환!
+				studentInstance.addCourse(course);
+			}
 		}
-		return mArrayList; // do not forget to return a proper variable.
+		/*
+		 * for( String key : students.keySet() ){ System.out.println(
+		 * String.format("키 : %s, 값 : %s", key, students.get(key)) ); }
+		 */
+			return students;
 	}
 
 	/**
@@ -104,6 +118,49 @@ public class HGUCoursePatternAnalyzer {
 		
 		// TODO: Implement this method
 		
-		return null; // do not forget to return a proper variable.
+		String StudentID;
+		int TotalNumberOfSemestersRegistered;
+		int Semester;
+		int NumCoursesTakenInTheSemester;
+		int i=1;
+		Student studentInfo;
+		String linesToBeSaved;
+		
+		ArrayList<String> result = new ArrayList<String>();
+		//Set<Map.Entry<String, Student>> entries = sortedStudents.entrySet();
+		
+		String Title = "StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester";  // add one line title 
+		result.add(Title);
+		
+		/*
+		 * for (Map.Entry<String, Student> entry : sortedStudents.entrySet()) {
+		 * StudentID = entry.getKey();
+		 * 
+		 * StudentInfo = entry.getValue();
+		 */
+			
+		for(String eachStudent : sortedStudents.keySet() ){
+			StudentID= eachStudent;
+			
+			//System.out.println(StudentID);
+		
+			studentInfo= sortedStudents.get(StudentID);
+			TotalNumberOfSemestersRegistered= studentInfo.getSemestersByYearAndSemester().size();  // sizeof Hashmap 
+			
+			i=1;
+			while(TotalNumberOfSemestersRegistered>=i) {
+				System.out.println(TotalNumberOfSemestersRegistered);
+				Semester=i;
+				NumCoursesTakenInTheSemester= studentInfo.getNumCourseInNthSemester(Semester);
+				linesToBeSaved = StudentID + ","+ TotalNumberOfSemestersRegistered + "," + Semester + "," + NumCoursesTakenInTheSemester;
+				result.add(linesToBeSaved);
+				
+				System.out.println(linesToBeSaved);
+				
+				i++;
+			} 
+        }
+		
+		return result; // do not forget to return a proper variable.
 	}
 }
