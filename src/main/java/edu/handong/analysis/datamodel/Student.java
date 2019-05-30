@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Student {
 	private String studentId;
-	private ArrayList<Course> coursesTaken =  new ArrayList<Course>(); // instantiation!!; // 학생이 들은 수업 목록
-	private HashMap<String,Integer> semestersByYearAndSemester = new HashMap<String, Integer>();
+	private ArrayList<Course> coursesTaken =  new ArrayList<Course>(); // instantiation!!; // 학생이 들은 수업정보 라인 한줄씩 목록
+	private HashMap<String,Integer> semestersByYearAndSemester = new HashMap<String, Integer>(); // 총학기 개수 
 	                                                         // key: Yearprivate Semester
 	                                                         // e.g., 2003private 1, 
 	public Student(String studentId) {
@@ -49,6 +49,53 @@ public class Student {
 		}	
 		return count;
 	}
-	/* field에 대한 getter setter 필요에 따라 추가 */
 
+	public boolean getNumCourses(String course, int j, int k) {   
+		boolean totalstu = false;
+		String period;
+		for(Course courses : coursesTaken) {
+			int yearTaken = courses.getYearTaken();
+			//System.out.println(yearTaken);
+			int semesterTaken = courses.getSemesterCourseTaken();
+			
+			String key = yearTaken + "-" + semesterTaken;
+			//System.out.println(key);
+			
+			period = j + "-" + k;
+			if(key.contentEquals(period)) {
+				totalstu = true;
+			}
+		}
+		return totalstu;
+	}	
+	public boolean getNumStu(String course, int j, int k) {   
+		boolean totalstu = false;
+		String period;
+		for(Course courses : coursesTaken) {
+			int yearTaken = courses.getYearTaken();
+			String courseCode = courses.getCourseCode();
+			
+			int semesterTaken = courses.getSemesterCourseTaken();
+			String key = yearTaken + "-" + semesterTaken;
+			
+			period = j + "-" + k;
+			
+			if(key.contentEquals(period)) {
+				if(courseCode.equals(course)) {
+					totalstu = true;
+				}
+			}
+		}
+		return totalstu;
+	}
+	public String getCourseName(String coursecode) {   //한 학기당 수업 몇개를 들었는지 
+		String courseName = null;
+		for(Course courses : coursesTaken) {	
+			String courseCode = courses.getCourseCode();		
+			if(courseCode.equals(coursecode)) {
+				courseName = courses.getCourseName();
+			}
+		}
+		return courseName;
+	}
 }

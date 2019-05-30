@@ -1,5 +1,7 @@
 package edu.handong.analysis.datamodel;
 
+import org.apache.commons.csv.CSVRecord;
+
 public class Course {
 	private String studentId;
 	private String yearMonthGraduated;
@@ -11,17 +13,16 @@ public class Course {
 	private int yearTaken;
 	private int semesterCourseTaken;
 
-	public Course(String line) {
-		studentId = line.split(",")[0].trim();
-		yearMonthGraduated = line.split(",")[1].trim();
-		firstMajor = line.split(",")[2].trim();
-		secondMajor = line.split(",")[3].trim();
-		courseCode = line.split(",")[4].trim();
-		courseName = line.split(",")[5].trim();
-		courseCredit = line.split(",")[6].trim();
-		yearTaken = Integer.parseInt(line.split(",")[7].trim());
-		//System.out.println(yearTaken);
-		semesterCourseTaken = Integer.parseInt(line.split(",")[8].trim());
+	public Course(CSVRecord csvRecord) {
+		studentId = csvRecord.get(0).trim();
+     	yearMonthGraduated = csvRecord.get(1).trim();
+     	firstMajor = csvRecord.get(2).trim();
+     	secondMajor= csvRecord.get(3).trim();
+     	courseCode= csvRecord.get(4).trim();
+     	courseName= csvRecord.get(5).trim();
+     	courseCredit= csvRecord.get(6).trim();
+     	yearTaken= Integer.parseInt(csvRecord.get(7).trim());		            	
+     	semesterCourseTaken= Integer.parseInt(csvRecord.get(8).trim());	
 	}
 		
 		public String getStudentId() {
@@ -36,25 +37,25 @@ public class Course {
 			return yearMonthGraduated;
 		}
 
-		public void setYearMonthGraduated(String yearMonthGraduated) {
-			this.yearMonthGraduated = yearMonthGraduated;
-		}
+		//public void setYearMonthGraduated(String yearMonthGraduated) {
+		//	this.yearMonthGraduated = yearMonthGraduated;
+		//}
 
-		public String getFirstMajor() {
-			return firstMajor;
-		}
+		//public String getFirstMajor() {
+		//	return firstMajor;
+		//}
 
-		public void setFirstMajor(String firstMajor) {
-			this.firstMajor = firstMajor;
-		}
+		//public void setFirstMajor(String firstMajor) {
+		//	this.firstMajor = firstMajor;
+		//}
 
-		public String getSecondMajor() {
-			return secondMajor;
-		}
+		//public String getSecondMajor() {
+		//	return secondMajor;
+		//}
 
-		public void setSecondMajor(String secondMajor) {
-			this.secondMajor = secondMajor;
-		}
+		//public void setSecondMajor(String secondMajor) {
+		//	this.secondMajor = secondMajor;
+		//}
 
 		public String getCourseCode() {
 			return courseCode;
@@ -72,13 +73,13 @@ public class Course {
 			this.courseName = courseName;
 		}
 
-		public String getCourseCredit() {
-			return courseCredit;
-		}
+		//public String getCourseCredit() {
+		//	return courseCredit;
+		//}
 
-		public void setCourseCredit(String courseCredit) {
-			this.courseCredit = courseCredit;
-		}
+		//public void setCourseCredit(String courseCredit) {
+		//	this.courseCredit = courseCredit;
+		//}
 
 		public int getYearTaken() {
 			return yearTaken;
@@ -95,8 +96,4 @@ public class Course {
 		public void setSemesterCourseTaken(int semesterCourseTaken) {
 			this.semesterCourseTaken = semesterCourseTaken;
 		}
-	
-	/*public String getCourseName() {
-		return courseName;
-	}*/
 }

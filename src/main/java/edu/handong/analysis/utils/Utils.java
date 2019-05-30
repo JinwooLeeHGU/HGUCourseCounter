@@ -29,13 +29,14 @@ public class Utils {
             if(removeHeader) {
             	infoArray.remove(0);
 			}
-            //.readLine()은 끝에 개행문자를 읽지 않는다.            
+            //.readLine()does not read \n as newline        
             bufReader.close();
             //System.out.println(1);
         }catch (FileNotFoundException e) {
-            // TODO: handle exception
+            
         }catch(IOException e){
         	System.out.println("The file path does not exist. Please check your CLI argument!");
+        	System.exit(0);
         }
 		
 		//for(String line: infoArray) {
@@ -76,7 +77,7 @@ public class Utils {
 		File tmp = new File(targetFileName);
 			try
 		    {
-			  FileWriter fw = new FileWriter(tmp); // 절대주소 경로 가능
+			  FileWriter fw = new FileWriter(tmp); // Full path can also be done
 		      BufferedWriter bw = new BufferedWriter(fw);
 		      
 		      for(String line: lines) {
@@ -84,7 +85,7 @@ public class Utils {
 			      //System.out.println(lines.size());
 			      //System.out.println(line);
 			      
-			      bw.newLine(); // 줄바꿈
+			      bw.newLine(); // newline
 		      }
 		       
 		      bw.close();
@@ -94,8 +95,8 @@ public class Utils {
 					tmp.getParentFile().mkdirs();
 					tmp.createNewFile();
 				}
-				catch(IOException error) {
-					System.out.println(error);
+				catch(IOException err) {
+					System.out.println(err);
 					System.exit(0);
 				} 
 			}catch(IOException e) {
