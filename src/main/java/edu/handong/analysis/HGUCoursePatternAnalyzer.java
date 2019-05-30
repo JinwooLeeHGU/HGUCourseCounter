@@ -126,7 +126,7 @@ public class HGUCoursePatternAnalyzer{
 					//System.out.println("1");
 				}
 				else {
-					analysis2 = true;
+					analysis2 = true; 
 					if(!cmd.hasOption("c")) printHelp(options);
 					else coursecode = cmd.getOptionValue("c");
 					//System.out.println("2");
