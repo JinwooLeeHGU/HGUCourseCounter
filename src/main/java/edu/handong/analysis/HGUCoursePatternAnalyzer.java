@@ -84,10 +84,10 @@ public class HGUCoursePatternAnalyzer{
 				Utils.writeAFile(linesToBeSaved, outPath);
 			}
 			if(analysis2) {
-				try (
+				try {
 			            Reader reader = Files.newBufferedReader(Paths.get(inPath));
 			            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);					
-			        ) {
+			        {
 					for (CSVRecord csvRecord : csvParser) {
 						csvRecords.add(csvRecord);		           
 					}
@@ -95,7 +95,12 @@ public class HGUCoursePatternAnalyzer{
 					
 					students = loadStudentCourseRecords(csvRecords);
 							                     		       
-					}													
+					}	
+				}
+		        catch(IOException e) {
+					System.out.println("The file path does not exist. Please check your CLI argument!");
+					System.exit(0);
+				}
 				
 				// To sort HashMap entries by key values so that we can save the results by student ids in ascending order.
 				Map<String, Student> sortedStudents = new TreeMap<String,Student>(students); 
